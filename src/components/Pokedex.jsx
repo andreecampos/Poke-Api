@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pokemon from "./Pokemon";
+import { Link } from "react-router-dom";
 
 const Pokedex = ({ pokemons }) => {
   const [start, setStart] = useState(0);
@@ -13,9 +14,13 @@ const Pokedex = ({ pokemons }) => {
     <div>
       <div className="pokedex-grid">
         <h1>Pokemon av första generation</h1>
-        {/* <Pokemon pokemons={pokemons} key={pokemons.name} />; */}
+
         {pokemons.map((pokemons, idx) => {
-          return <Pokemon pokemons={pokemons} key={pokemons.name} />;
+          return (
+            <Link to={`/pokemon/${pokemons.name}`}>
+              <Pokemon pokemons={pokemons} key={pokemons.name} />;
+            </Link>
+          );
         })}
         <button onClick={handleLoadMore}>Load More</button>
       </div>

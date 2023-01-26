@@ -16,11 +16,10 @@ const Pokemon = ({ pokemons }) => {
           <h3>{pokemons.name}</h3>
           <div>#{pokemons.id}</div>
         </div>
-        <div>#{pokemons.id}</div>
       </div>
-      <div>
-        <div></div>
-      </div>
+      {/* </Link> */}
+
+      <div></div>
     </div>
   );
 };

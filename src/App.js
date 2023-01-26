@@ -46,7 +46,7 @@ const [pokemons, setPokemons] = useState([])
     async function getGeneration1Pokemon() {
       const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=150?generation=1');
       const generation1Pokemon = await response.json();
-      console.log(generation1Pokemon)
+      // console.log(generation1Pokemon)
       const allPokemons = []
       for (const pokemon of generation1Pokemon.results) {
           const pokemonResponse = await fetch(pokemon.url);
@@ -78,7 +78,7 @@ const [pokemons, setPokemons] = useState([])
       <Navbar/>
       <Routes>
         {/* <Route path='/' element={<PokemonList/>}/> */}
-        <Route path='/pokedex' element={<Pokedex pokemons={pokemons}/>}/>
+        <Route path='/' element={<Pokedex pokemons={pokemons}/>}/>
         <Route path='/pokemon/:name' element={<PokemonDetail />}/>
       </Routes>
     </div>
