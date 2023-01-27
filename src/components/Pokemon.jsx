@@ -1,12 +1,13 @@
 import React from "react";
 
-const Pokemon = ({ pokemons }) => {
-  // console.log("pokemon.jsx", pokemons);
+const Pokemon = ({ pokemons, type }) => {
+  console.log("pokemon.jsx", pokemons);
+  const style = `thumb-container ${type}`;
   return (
-    <div className="pokemon-card">
+    <div className={style}>
       <div className="pokemon-img-container">
         <img
-          src={pokemons.sprites.front_default}
+          src={pokemons.sprites.other.dream_world.front_default}
           alt={pokemons.name}
           className="pokemon-img"
         />
