@@ -24,6 +24,10 @@ const [pokemons, setPokemons] = useState([])
       setPokemons(allPokemons)
     }       
     
+ useEffect(()=>{
+  getGeneration1Pokemon()
+},[])
+
     // async function getGeneration1Pokemon(start) {
 //   const response = await fetch('https://pokeapi.co/api/v2/pokemon?generation=1');
 //   const generation1Pokemon = await response.json();
@@ -35,9 +39,6 @@ const [pokemons, setPokemons] = useState([])
 //       setPokemons(pokemonData)
 //     }
 //     }
- useEffect(()=>{
-  getGeneration1Pokemon()
-},[])
   return (
     <div>
       <Navbar/>

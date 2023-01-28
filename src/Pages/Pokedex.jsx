@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 
 const Pokedex = ({ pokemons }) => {
   const [start, setStart] = useState(0);
+  const [limit, setLimit] = useState(10);
 
   function handleLoadMore() {
     setStart(start + 10);
+  }
+  function handleLoadLess() {
+    if (start - limit >= 0) {
+      setStart(start - limit);
+    }
   }
 
   useEffect(() => {}, [start]);
@@ -15,7 +21,7 @@ const Pokedex = ({ pokemons }) => {
       <h1>Pokemon av första generation</h1>
       <div className="pokedex-grid">
         <div className="pokemon-card">
-          {pokemons.slice(start, start + 20).map((pokemons, idx) => {
+          {pokemons.slice(start, start + 10).map((pokemons, idx) => {
             return (
               <Link to={`/pokemon/${pokemons.name}`}>
                 <Pokemon
@@ -28,7 +34,16 @@ const Pokedex = ({ pokemons }) => {
           })}
         </div>
       </div>
-      <button onClick={handleLoadMore}>Load More</button>
+      <div className="footer">
+        <button onClick={handleLoadMore} className="Load-More">
+          Load More
+        </button>
+        {start !== 0 && (
+          <button onClick={handleLoadLess} className="Load-More">
+            Load Less
+          </button>
+        )}
+      </div>
     </div>
   );
 };
