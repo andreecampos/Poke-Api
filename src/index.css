@@ -141,6 +141,59 @@ a:-webkit-any-link {
               0 0 50px rgb(0,140,255),
               0 0 100px rgb(0,140,255);
 }
+.pokedex-grid-detail{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  height: 54vh;
+  margin-left: 20%;
+  margin-right: 276px;
+}
+.card-body-detail{
+  text-align: center;
+  border-radius: 4rem;
+  padding-top: 100px;
+  margin-left: 23px;
+  margin-right: 23px;
+  margin-top: 22px;
+  padding-bottom: 56px;
+  margin-bottom: 25px;
+  height: 170px;
+  box-shadow: 10px 0px 35px -18px rgb(0 0 0);
+}
+.card-body-detail h5{
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 8px;
+  width: 85px;
+  margin: -72px auto 12px auto;;
+  font-weight: 900;
+  font-size: 27px;
+}
+.card-body-detail p{
+  padding: 8px;
+  margin: -28px auto 19px auto;
+  font-weight: 500;
+  font-size: 27px;
+}
+.thumb-container-detail{
+    text-align: center;
+    position: relative;
+}
+.pokemon-img-detail{
+  width: 646px;
+  height: 412px;
+  position: absolute;
+  margin-top: -212px;
+  margin-left: -319px;
+}
+.card-title-detail{
+  font-size: 3rem;
+  text-transform: capitalize;
+  font-weight: 900;
+  margin: 25px;
+}
 
 .rock {
   background-color: #c9ab40;
@@ -172,3 +225,30 @@ a:-webkit-any-link {
 .water {
   background-color: #92a0c2;
 }
+@media only screen and (max-width: 600px) {
+  .pokedex-grid {
+    grid-template-columns: repeat(auto-fit,minmax(99px,1fr));
+  }
+  .pokedex-grid-detail{
+    grid-template-columns: repeat(auto-fit,minmax(99px,1fr));
+  }
+  .card-body-detail{
+    text-align: center;
+    border-radius: 4rem;
+    padding-top: 106px;
+    margin-left: -11px;
+    margin-right: -225px;
+    margin-top: 334px;
+    padding-bottom: 125px;
+    margin-bottom: 25px;
+    height: 86px;
+    box-shadow: 10px 0px 35px -18px rgb(0 0 0);
+  }
+  .pokemon-img-detail{
+    width: 552px;
+    height: 305px;
+    position: absolute;
+    margin-top: 3px;
+    margin-left: -186px;
+  }
+  }
