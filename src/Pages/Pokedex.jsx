@@ -23,11 +23,12 @@ const Pokedex = ({ pokemons }) => {
         <div className="pokemon-card">
           {pokemons.slice(start, start + 10).map((pokemons, idx) => {
             return (
-              <Link to={`/pokemon/${pokemons.name}`}>
+              <Link to={`/pokemon/${pokemons.name}`} key={idx}>
                 <Pokemon
                   pokemons={pokemons}
                   key={pokemons.name}
                   type={pokemons.types[0].type.name}
+                  // type={pokemons.types[0].type.name}
                 />
               </Link>
             );

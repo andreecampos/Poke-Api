@@ -2,55 +2,72 @@ import React, { useState, useEffect } from "react";
 import PokemonDetail from './Pages/PokemonDetail';
 import Pokedex from './Pages/Pokedex'
 import { Route,Routes} from "react-router-dom";
-
 import Navbar from "./components/Navbar";
+import axios from 'axios';
+import axiosCache from 'axios-cache-adapter';
 
+
+const cache = axiosCache.setupCache({
+  maxAge: 15 * 60 * 1000, // 15 min cache
+  });
+  const api = axios.create({
+    adapter: cache.adapter,
+    });
 
 function App() {
 const [pokemons, setPokemons] = useState([])
-    // console.log("pokemons",pokemons)
 
-    async function getGeneration1Pokemon() {
-      const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=150?generation=1');
-      const generation1Pokemon = await response.json();
-      // console.log(generation1Pokemon)
-      const allPokemons = []
+    const getGeneration1Pokemon = async () => {
+
+    try {
+      const cacheKey = 'https://pokeapi.co/api/v2/pokemon?limit=150?generation=1';
+      const cachedResponse = await api.get(cacheKey, { cache: true });
+
+      if (cachedResponse) {
+        console.log("answer from cache")
+        const generation1Pokemon = cachedResponse.data;
+        const allPokemons = [];
       for (const pokemon of generation1Pokemon.results) {
-          const pokemonResponse = await fetch(pokemon.url);
-          const pokemonData = await pokemonResponse.json();
-          // console.log(pokemonData.name, pokemonData.sprites.front_default);
-          allPokemons.push(pokemonData)
+        const pokemonResponse = await api.get(pokemon.url);
+        const pokemonData = pokemonResponse.data;
+        allPokemons.push(pokemonData);
       }
-      setPokemons(allPokemons)
+  
+      setPokemons(allPokemons);
+        return;
+      }  
+    } catch (error) {
+      console.error(error);
+    }
+      
+
     }       
     
  useEffect(()=>{
   getGeneration1Pokemon()
 },[])
 
-    // async function getGeneration1Pokemon(start) {
-//   const response = await fetch('https://pokeapi.co/api/v2/pokemon?generation=1');
-//   const generation1Pokemon = await response.json();
 
-//   for (let i = start; i < generation1Pokemon.results.length && i < start+10; i++) {
-//       const pokemonResponse = await fetch(generation1Pokemon.results[i].url);
-//       const pokemonData = await pokemonResponse.json();
-//       // console.log(pokemonData.name, pokemonData.sprites.front_default);
-//       setPokemons(pokemonData)
-//     }
-//     }
-  return (
-    <div>
-      <Navbar/>
-      <Routes>
-        <Route path='/' element={<Pokedex pokemons={pokemons}/>}/>
-        <Route path='/pokemon/:name' element={<PokemonDetail />}/>
-      </Routes>
-    </div>
-  );
+ 
+return (
+  <div>
+    {pokemons && pokemons[0] ? (
+      <>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Pokedex pokemons={pokemons} />} />
+          <Route path="/pokemon/:name" element={<PokemonDetail />} />
+        </Routes>
+      </>
+    ) : (
+      <div>Loading Pokemons...</div>
+    )}
+  </div>
+);
+  
+  
 };
 
 
 
 export default App;
-  

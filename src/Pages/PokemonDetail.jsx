@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import Cache from "axios-cache-adapter";
+
+const cache = Cache.setupCache({
+  maxAge: 15 * 60 * 1000, // 15 min cache
+});
+const api = axios.create({
+  adapter: cache.adapter,
+});
 
 const PokemonDetail = () => {
   const [selectedPokemon, setSelectedPokemon] = useState([]);
-  console.log("details", selectedPokemon);
-  // const [isLoading, setIsLoading] = useState(false);
 
   const { name } = useParams();
   const type = selectedPokemon.types && selectedPokemon.types[0].type.name;
@@ -12,8 +19,10 @@ const PokemonDetail = () => {
 
   const loadDetail = async () => {
     try {
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-      const data = await res.json();
+      const res = await api.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      // const data = await res.json();
+      const data = res.data;
 
       setSelectedPokemon(data);
     } catch (err) {

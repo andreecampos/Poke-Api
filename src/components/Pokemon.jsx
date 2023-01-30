@@ -1,13 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Pokemon = ({ pokemons, type }) => {
-  console.log("pokemon.jsx", pokemons);
+  // console.log("pokemon.jsx", pokemons);
   const style = `card-body ${type}`;
   return (
     <div className="thumb-container">
       <img
-        src={pokemons.sprites.other.dream_world.front_default}
+        src={
+          // pokemons.sprites &&
+          // pokemons.sprites.other &&
+          pokemons.sprites.other.dream_world.front_default
+        }
         alt={pokemons.name}
         className="pokemon-img"
       />
