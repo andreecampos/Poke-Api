@@ -1,73 +1,75 @@
 import React, { useState, useEffect } from "react";
-import PokemonDetail from './Pages/PokemonDetail';
-import Pokedex from './Pages/Pokedex'
-import { Route,Routes} from "react-router-dom";
+import PokemonDetail from "./Pages/PokemonDetail";
+import Pokedex from "./Pages/Pokedex";
+import Loading from "./components/Loading";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import axios from 'axios';
-import axiosCache from 'axios-cache-adapter';
-
-
-const cache = axiosCache.setupCache({
-  maxAge: 15 * 60 * 1000, // 15 min cache
-  });
-  const api = axios.create({
-    adapter: cache.adapter,
-    });
+import { getGeneration1Pokemon } from "./components/Api";
+import { fetchAllPokemonData } from "./components/Api";
 
 function App() {
-const [pokemons, setPokemons] = useState([])
+  const [pokemons, setPokemons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(0);
 
-    const getGeneration1Pokemon = async () => {
+  const handleLoadLess = () => {
+    if (offset - 10 >= 0) {
+      setOffset(offset - 10);
+    }
+  };
 
+  const handleLoadMore = async () => {
     try {
-      const cacheKey = 'https://pokeapi.co/api/v2/pokemon?limit=150?generation=1';
-      const cachedResponse = await api.get(cacheKey, { cache: true });
-
-      if (cachedResponse) {
-        console.log("answer from cache")
-        const generation1Pokemon = cachedResponse.data;
-        const allPokemons = [];
-      for (const pokemon of generation1Pokemon.results) {
-        const pokemonResponse = await api.get(pokemon.url);
-        const pokemonData = pokemonResponse.data;
-        allPokemons.push(pokemonData);
-      }
-  
-      setPokemons(allPokemons);
-        return;
-      }  
+      setLoading(true);
+      const nextPokemons = await getGeneration1Pokemon(offset + 10, 10);
+      const { results } = nextPokemons;
+      const allPokemons = await fetchAllPokemonData(results);
+      setOffset(offset + 10);
+      setPokemons([...pokemons, ...allPokemons]);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
-      
+  };
 
-    }       
-    
- useEffect(()=>{
-  getGeneration1Pokemon()
-},[])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const generation1Pokemon = await getGeneration1Pokemon(0, 10);
+        const { results } = generation1Pokemon;
+        const allPokemons = await fetchAllPokemonData(results);
+        setPokemons(allPokemons);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-
- 
-return (
-  <div>
-    {pokemons && pokemons[0] ? (
-      <>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Pokedex pokemons={pokemons} />} />
-          <Route path="/pokemon/:name" element={<PokemonDetail />} />
-        </Routes>
-      </>
-    ) : (
-      <div>Loading Pokemons...</div>
-    )}
-  </div>
-);
-  
-  
-};
-
-
+  return loading ? (
+    <Loading />
+  ) : (
+    <div>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Pokedex
+              pokemons={pokemons}
+              handleLoadMore={handleLoadMore}
+              offset={offset}
+              handleLoadLess={handleLoadLess}
+            />
+          }
+        />
+        <Route path="/pokemon/:name" element={<PokemonDetail />} />
+      </Routes>
+    </div>
+  );
+}
 
 export default App;
