@@ -14,7 +14,6 @@ export const getGeneration1Pokemon = async (offset = 0, limit = 10) => {
     const cachedResponse = await api.get(cacheKey, { cache: true });
 
     if (cachedResponse) {
-      console.log("answer from cache");
       return cachedResponse.data;
     }
   } catch (error) {

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Loading = () => {
-  return <div>Loading Pokemons...</div>;
+	return <div>Loading Pokemons...</div>;
 };
 
 export default Loading;

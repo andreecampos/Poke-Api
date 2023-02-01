@@ -61,6 +61,12 @@ a:-webkit-any-link {
   opacity: 0.5;
  
 }
+.main-title{
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 900;
+  margin: 25px;
+}
 .card-body{
   text-align: center;
   border-radius: 4rem;
