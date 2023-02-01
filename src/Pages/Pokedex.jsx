@@ -27,7 +27,7 @@ const Pokedex = ({ pokemons, handleLoadMore, offset, handleLoadLess }) => {
 			<div className='footer'>
 				{offset + 10 < totalPokemons && (
 					<button onClick={handleLoadMore} className='Load-More'>
-						Cargar más
+						Load More
 					</button>
 				)}
 				{offset !== 0 && (
