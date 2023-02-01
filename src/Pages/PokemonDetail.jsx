@@ -11,48 +11,42 @@ const api = axios.create({
 });
 
 const PokemonDetail = () => {
-  const [selectedPokemon, setSelectedPokemon] = useState([]);
-
+  const [selectedPokemon, setSelectedPokemon] = useState({});
   const { name } = useParams();
-  const type = selectedPokemon.types && selectedPokemon.types[0].type.name;
-  const style = `card-body-detail ${type}`;
-
-  const loadDetail = async () => {
-    try {
-      const res = await api.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-      // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-      // const data = await res.json();
-      const data = res.data;
-
-      setSelectedPokemon(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
+    const loadDetail = async () => {
+      try {
+        const res = await api.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const data = res.data;
+
+        setSelectedPokemon(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     loadDetail();
-  }, []);
+  }, [name]);
+  const { id, weight, height, sprites, types } = selectedPokemon;
+  const type = types?.[0]?.type?.name;
 
   return (
     <div className="pokedex-grid-detail">
       <div className="thumb-container-detail">
-        {selectedPokemon.sprites && (
+        {sprites && (
           <img
-            src={selectedPokemon.sprites.other.dream_world.front_default}
+            src={sprites.other.dream_world.front_default}
             alt=""
             className="pokemon-img-detail"
           />
         )}
       </div>
-      <div className={style}>
-        <h5>#{selectedPokemon.id}</h5>
+      <div className={`card-body-detail ${type}`}>
+        <h5>#{id}</h5>
         <h2 className="card-title-detail">{selectedPokemon.name}</h2>
-        <p>Weight: {selectedPokemon.weight}</p>
-        <p>Height: {selectedPokemon.height}</p>
-        <p>
-          Type: {selectedPokemon.types && selectedPokemon.types[0].type.name}
-        </p>
+        <p>Weight: {weight}</p>
+        <p>Height: {height}</p>
+        <p>Type: {type}</p>
       </div>
     </div>
   );

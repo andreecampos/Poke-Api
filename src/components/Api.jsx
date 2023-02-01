@@ -10,8 +10,6 @@ const api = axios.create({
 
 export const getGeneration1Pokemon = async (offset = 0, limit = 10) => {
   try {
-    // const cacheKey = "https://pokeapi.co/api/v2/pokemon?limit=150?generation=1";
-
     const cacheKey = `https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}&generation=1`;
     const cachedResponse = await api.get(cacheKey, { cache: true });
 
@@ -26,7 +24,6 @@ export const getGeneration1Pokemon = async (offset = 0, limit = 10) => {
 };
 
 export const fetchPokemonData = async (pokemon) => {
-  console.log("alla pokemons", pokemon);
   try {
     const pokemonResponse = await api.get(pokemon.url);
     const pokemonData = pokemonResponse.data;

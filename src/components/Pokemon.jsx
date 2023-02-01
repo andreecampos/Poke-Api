@@ -1,16 +1,12 @@
 import React from "react";
 
 const Pokemon = ({ pokemons, type }) => {
-  // console.log("pokemon.jsx", pokemons);
+  const pokeType = pokemons.types[0].type.name;
   const style = `card-body ${type}`;
   return (
     <div className="thumb-container">
       <img
-        src={
-          // pokemons.sprites &&
-          // pokemons.sprites.other &&
-          pokemons.sprites.other.dream_world.front_default
-        }
+        src={pokemons.sprites.other.dream_world.front_default}
         alt={pokemons.name}
         className="pokemon-img"
       />
@@ -19,7 +15,7 @@ const Pokemon = ({ pokemons, type }) => {
         <div className="card-top">
           <h5>#{pokemons.id}</h5>
           <h2 className="card-title">{pokemons.name}</h2>
-          <small>Type: {pokemons.types[0].type.name}</small>
+          <small>Type: {pokeType}</small>
         </div>
       </div>
     </div>
